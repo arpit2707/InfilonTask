@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import AdminLogin from "./components/AdminLogin";
+import StudentList from "./components/StudentList";
+import AddStudent from "./components/AddStudent";
+import EditStudent from "./components/EditStudent";
+import StudentResult from "./components/StudentResult";
+import ExportExcel from "./components/ExportExcel";
+import ResultPdf from "./components/ResultPdf";
+import Home from "./components/Home";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<AdminLogin />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/students" element={<StudentList />} />
+          <Route path="/add-student" element={<AddStudent />} />
+          <Route path="/edit-student/:id" element={<EditStudent />} />
+          <Route path="/results/:studentId" element={<StudentResult />} />
+          <Route path="/generate-pdf/:studentId" element={<ResultPdf />} />
+          <Route path="/export-excel" element={<ExportExcel />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
-}
+};
 
 export default App;
