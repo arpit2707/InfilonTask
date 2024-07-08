@@ -17,28 +17,30 @@ const AdminLogin = () => {
   };
 
   return (
-    <div>
+    <div className="container d-flex flex-column justify-content-center align-items-center">
       <h2>Admin Login</h2>
       {status === "loading" && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
+      <form onSubmit={handleSubmit} className="d-flex flex-column">
+        <label className="mt-3">Username</label>
+        <input
+          className="mt-1"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <label className="mt-3">Password</label>
+        <input
+          className="mt-1"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button className="btn btn-primary mt-3" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

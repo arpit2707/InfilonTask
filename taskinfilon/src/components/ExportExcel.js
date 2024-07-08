@@ -4,16 +4,21 @@ import { fetchStudents } from "../slices/studentSlice";
 import { fetchResult } from "../slices/resultSlice";
 import * as XLSX from "xlsx";
 
-const ExportExcel = () => {
+const ExportExcel = ({ studentId }) => {
   const dispatch = useDispatch();
   const students = useSelector((state) => state.students.students);
   const results = useSelector((state) => state.results.results);
 
   useEffect(() => {
     dispatch(fetchStudents());
-    students.forEach((student) => {
-      dispatch(fetchResult(student._id));
-    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (students.length > 0) {
+      students.forEach((student) => {
+        dispatch(fetchResult(student._id));
+      });
+    }
   }, [dispatch, students]);
 
   const exportToExcel = () => {

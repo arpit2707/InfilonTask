@@ -5,7 +5,6 @@ import StudentList from "./StudentList";
 const Home = () => {
   return (
     <div>
-      <AddStudent />
       <StudentList />
     </div>
   );

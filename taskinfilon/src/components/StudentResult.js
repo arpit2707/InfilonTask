@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchStudents } from "../slices/studentSlice";
-import { addResult, fetchResult, editResult } from "../slices/resultSlice";
 import { useParams } from "react-router-dom";
+import { fetchResult, addResult, editResult } from "../slices/resultSlice";
+import ResultPdf from "../components/ResultPdf";
+import ExportExcel from "../components/ExportExcel";
 
 const StudentResult = () => {
   const { studentId } = useParams();
-  console.log(studentId);
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.students.students);
   const results = useSelector((state) => state.results.results);
   const [marks, setMarks] = useState({});
 
@@ -24,7 +23,10 @@ const StudentResult = () => {
   }, [results, studentId]);
 
   const handleChange = (subject, value) => {
-    setMarks({ ...marks, [subject]: value });
+    setMarks((prevMarks) => ({
+      ...prevMarks,
+      [subject]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -41,18 +43,46 @@ const StudentResult = () => {
     <div>
       <h2>Student Result</h2>
       <form onSubmit={handleSubmit}>
-        {Object.keys(marks).map((subject) => (
-          <div key={subject}>
-            <label>{subject}</label>
-            <input
-              type="number"
-              value={marks[subject] || ""}
-              onChange={(e) => handleChange(subject, e.target.value)}
-            />
-          </div>
-        ))}
+        <label htmlFor="english">
+          English
+          <input
+            name="english"
+            value={marks.English || ""}
+            onChange={(e) => handleChange("English", e.target.value)}
+            placeholder="English"
+          />
+        </label>
+        <label htmlFor="hindi">
+          Hindi
+          <input
+            name="hindi"
+            value={marks.Hindi || ""}
+            onChange={(e) => handleChange("Hindi", e.target.value)}
+            placeholder="Hindi"
+          />
+        </label>
+        <label htmlFor="maths">
+          Maths
+          <input
+            name="maths"
+            value={marks.Maths || ""}
+            onChange={(e) => handleChange("Maths", e.target.value)}
+            placeholder="Maths"
+          />
+        </label>
+        <label htmlFor="science">
+          Science
+          <input
+            name="science"
+            value={marks.Science || ""}
+            onChange={(e) => handleChange("Science", e.target.value)}
+            placeholder="Science"
+          />
+        </label>
         <button type="submit">Save</button>
       </form>
+      <ResultPdf studentId={studentId} />
+      <ExportExcel studentId={studentId} />
     </div>
   );
 };

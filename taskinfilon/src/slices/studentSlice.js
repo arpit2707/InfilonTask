@@ -5,7 +5,7 @@ import { API } from "../apiconfig";
 export const fetchStudents = createAsyncThunk(
   "students/fetchStudents",
   async () => {
-    const response = await axios.get(`${API}/api/students`);
+    const response = await axios.get(`${API}/api/students/get-students`);
     console.log("DATA", response.data);
     return response.data;
   }
@@ -14,11 +14,18 @@ export const fetchStudents = createAsyncThunk(
 export const addStudent = createAsyncThunk(
   "students/addStudent",
   async (student) => {
-    const response = await axios.post(`${API}/api/students`, {
-      name: student.name,
-      marks: student.marks,
-    });
-    return response.data;
+    console.log(student);
+    try {
+      const response = await axios.post(`${API}/api/students`, {
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+        marks: student.marks,
+      });
+      return response.data;
+    } catch (error) {
+      console.log("ERROR", error);
+    }
   }
 );
 

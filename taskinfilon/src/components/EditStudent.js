@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStudents, editStudent } from "../slices/studentSlice";
+import { useParams } from "react-router-dom";
 
 const EditStudent = ({ match }) => {
-  const { id } = match.params;
+  const { id } = useParams();
   const dispatch = useDispatch();
   const students = useSelector((state) => state.students.students);
   const [name, setName] = useState("");
-  const [marks, setMarks] = useState({});
-
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState("");
   useEffect(() => {
     dispatch(fetchStudents());
   }, [dispatch]);
@@ -16,52 +17,47 @@ const EditStudent = ({ match }) => {
   useEffect(() => {
     const student = students.find((student) => student._id === id);
     if (student) {
+      console.log(student);
       setName(student.name);
-      setMarks(student.marks || {});
     }
   }, [students, id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(editStudent({ id, name, marks }));
-  };
-
-  const handleMarkChange = (subject, value) => {
-    setMarks({ ...marks, [subject]: value });
+    dispatch(editStudent({ id, name, email, phone }));
   };
 
   return (
-    <div>
+    <div className="container d-flex flex-column justify-content-center align-items-center">
       <h2>Edit Student</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <h3>Edit Marks</h3>
-          <div>
-            <label>Subject 1</label>
-            <input
-              type="number"
-              value={marks["Subject1"] || ""}
-              onChange={(e) => handleMarkChange("Subject1", e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Subject 2</label>
-            <input
-              type="number"
-              value={marks["Subject2"] || ""}
-              onChange={(e) => handleMarkChange("Subject2", e.target.value)}
-            />
-          </div>
-        </div>
-        <button type="submit">Save Changes</button>
+      <form onSubmit={handleSubmit} className="d-flex flex-column">
+        <label className="mt-3">Name</label>
+        <input
+          className="mt-1 border border-solid border-2 rounded"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <label className="mt-3">Email</label>
+        <input
+          className="mt-1 border border-solid border-2 rounded"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label className="mt-3">Phone</label>
+        <input
+          className="mt-1 border border-solid border-2 rounded"
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+
+        <button className="mt-3 btn btn-primary" type="submit">
+          Save Changes
+        </button>
       </form>
     </div>
   );

@@ -6,6 +6,7 @@ export const fetchResult = createAsyncThunk(
   "results/fetchResult",
   async (studentId) => {
     const response = await axios.get(`${API}/api/results/${studentId}`);
+    console.log(response.data);
     return response.data;
   }
 );

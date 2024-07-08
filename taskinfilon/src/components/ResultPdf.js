@@ -4,8 +4,8 @@ import { fetchResult } from "../slices/resultSlice";
 import { useParams, useLocation } from "react-router-dom";
 import jsPDF from "jspdf";
 
-const ResultPdf = () => {
-  const { studentId } = useParams();
+const ResultPdf = (props) => {
+  const { studentId } = props;
   const dispatch = useDispatch();
   const results = useSelector((state) => state.results.results);
   const pdfRef = useRef("");
